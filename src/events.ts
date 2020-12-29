@@ -136,4 +136,5 @@ export interface EventsTypes extends DefaultEventsTypes {
     export: Data;
     process: void;
     clear: void;
+    rendered: HTMLElement;
 }
