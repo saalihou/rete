@@ -126,4 +126,5 @@ export interface EventsTypes {
     import: Data;
     export: Data;
     process: void;
+    rendered: HTMLElement;
 }

@@ -15,6 +15,8 @@ export class Area extends Emitter<EventsTypes> {
     mouse: Mouse = { x: 0, y: 0 }
 
     private _startPosition: any = null
+    private _fragment: DocumentFragment = document.createDocumentFragment();
+    private _appendFlushTimeout: number = 1;
 
     constructor(container: HTMLElement, emitter: Emitter<EventsTypes>) {
         super(emitter);
@@ -91,7 +93,13 @@ export class Area extends Emitter<EventsTypes> {
     }
 
     appendChild(el: HTMLElement) {
-        this.el.appendChild(el)
+      this._fragment = this._fragment || document.createDocumentFragment();
+      this._fragment.appendChild(el);
+      clearTimeout(this._appendFlushTimeout);
+      this._appendFlushTimeout = setTimeout(() => {
+        this.el.appendChild(this._fragment);
+        this.trigger('rendered', this.el);
+      });
     }
 
     removeChild(el: HTMLElement) {
